@@ -3,8 +3,8 @@ import app from '../index';
 
 const request = supertest(app);
 describe('Test endpoint Image response', () => {
-    it('gets the api endpoint', async () => {
-        const response = await request.get('/api/image');
-        expect(response.status).toBe(200);
-    }
-)});
+  it('gets the api endpoint', async () => {
+    const response = await request.get('/api/image');
+    expect(response.status).toBe(200);
+  });
+});
