@@ -10,7 +10,7 @@ const imageRoute = require('./routes/image');
 let port = 8000;
 // initialize server
 app.listen(port, () => {
-    console.log("server is running");
+    console.log('server is running');
 });
 app.use('/api', imageRoute);
 exports.default = app;
