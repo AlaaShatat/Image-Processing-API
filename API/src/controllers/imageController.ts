@@ -2,7 +2,7 @@
 import express from 'express';
 import Path from 'path';
 import convertSize from '../helpers/convertSize';
-import  checkExist from '../helpers/checkExist';
+import checkExist from '../helpers/checkExist';
 // exports
 const processImage = async (req: express.Request, res: express.Response) => {
   const filename: string = req.query.filename
