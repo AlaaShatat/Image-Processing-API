@@ -1,38 +1,42 @@
 // this is the image controller
 import express from 'express';
-const sharp = require('sharp');
+const {promises: FS} = require('fs');
+const Path = require('path');
 
-// resizing function
-const convertSize = (name:string, width: number, height: number) => {
-  const path = __dirname.split('\\');
-  const inputPath = path.slice(0,6).join('\\');
-  let resizedImage: string = name+'_'+ height+ '_'+ width;  
-  
-  sharp(inputPath + '/assets/src/'+name+'.jpg')
-  .resize(height, width) 
-  .toFile(inputPath + '/assets/thumbs/'+resizedImage+'.jpg');
-}
-// check caching function
-const checkExist =()=>{}
-exports.processImage = (
+const{checkExist, convertSize} = require('../helpers/imageHelper');
+// exports
+exports.processImage = async (
   req: express.Request,
-  res: express.Response,) =>
-   {
+  res: express.Response,) =>{
     let filename: string = req.query.filename?req.query.filename.toString(): "null";
-    let height: number = req.query.height?Number(req.query.height): -1;
     let width: number = req.query.height?Number(req.query.width): -1;
-    
-    // missing information
-    if (filename=="null" || height <=0 || width <=0){
-      res.status(200).send({'error': "Sorry wrong information"});  
-    }
-    else{
-      // check if exists
-      
-      // if not 
-      convertSize(filename, width, height);
-      res.status(200).send({'filename': filename, 'height': height, 'width': width});
+    let height: number = req.query.height?Number(req.query.height): -1;
 
+    // missing information
+    if (filename=="null" || height<=0 || Number.isNaN(height) || width <=0 || Number.isNaN(width)){
+      res.status(400).send({'error': "Sorry wrong information"});  
+    }
+
+    // continue processing
+    else{
+      // check thumbs first
+      let resizedImage: string = filename+'_'+ width+ '_'+ height;
+      const dstPath: string = Path.join(__dirname, '../../assets/thumbs/'+resizedImage+'.jpg');
+      if (await checkExist(dstPath)){
+        console.log(' the processed Image already exists, return the photo');
+        res.status(200).send('return form caching');
+      }
+      // if not found
+      else{
+        console.log('continue resizing');
+        if (await convertSize(filename, width, height, dstPath)){
+          res.status(200).send({'filename': filename, 'width': width, 'height': height});
+        }
+        else{
+          res.status(400).send('no photo with this name');
+        }
+          
+      }
+  
     }  
 };
-
