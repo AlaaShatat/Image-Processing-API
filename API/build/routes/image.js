@@ -4,11 +4,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const router = express_1.default.Router();
+const imageRoute = express_1.default.Router();
 // controllers
-const { Image } = require('../controllers/imageController');
+const imageController_1 = __importDefault(require("../controllers/imageController"));
 // routes
-router.get('/image', Image, (req, res) => {
-    console.log('innnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn');
+imageRoute.get('/', (req, res) => {
+    res.status(200).send('please add the image information');
 });
-module.exports = router;
+imageRoute.get('/image', imageController_1.default);
+//module.exports = {imageRoute};
+exports.default = imageRoute;

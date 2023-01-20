@@ -1,15 +1,15 @@
 import express from 'express';
-const router = express.Router();
+const imageRoute = express.Router();
 
 // controllers
-const { Image,processImage} = require('../controllers/imageController');
+import processImage from '../controllers/imageController';
 
 // routes
-/*router.get('/image', Image, (req, res): void => {
-  console.log('innnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn');
+imageRoute.get('/', (req, res): void => {
+  res.status(200).send('please add the image information');
 });
-*/
 
-router.get('/image', processImage);
+imageRoute.get('/image', processImage);
 
-module.exports = router;
+//module.exports = {imageRoute};
+export default imageRoute;

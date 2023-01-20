@@ -17,7 +17,23 @@ const index_1 = __importDefault(require("../index"));
 const request = (0, supertest_1.default)(index_1.default);
 describe('Test endpoint Image response', () => {
     it('gets the api endpoint', () => __awaiter(void 0, void 0, void 0, function* () {
-        const response = yield request.get('/api/image');
+        const response = yield request.get('/api/');
+        expect(response.status).toBe(200);
+    }));
+    it('gets the image endpoint and the file not exist', () => __awaiter(void 0, void 0, void 0, function* () {
+        const response = yield request.get('/api/image?filename=alaa&height=50&width=50');
+        expect(response.status).toBe(400);
+    }));
+    it('gets the image with missing information', () => __awaiter(void 0, void 0, void 0, function* () {
+        const response = yield request.get('/api/image?height=50&width=50');
+        expect(response.status).toBe(400);
+    }));
+    it('gets the image endpoint and change successfully', () => __awaiter(void 0, void 0, void 0, function* () {
+        const response = yield request.get('/api/image?filename=encenadaport&height=50&width=50');
+        expect(response.status).toBe(200);
+    }));
+    it('gets the image endpoint and get from caching', () => __awaiter(void 0, void 0, void 0, function* () {
+        const response = yield request.get('/api/image?filename=encenadaport&height=50&width=50');
         expect(response.status).toBe(200);
     }));
 });

@@ -2,8 +2,8 @@ import express from 'express';
 const app = express();
 
 // import routes
-const imageRoute = require('./routes/image');
-let port: number = 8000;
+import imageRoute from './routes/image';
+const port = 8000;
 
 // initialize server
 app.listen(port, () => {
