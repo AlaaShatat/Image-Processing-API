@@ -12,18 +12,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const path_1 = __importDefault(require("path"));
-const checkExist_1 = __importDefault(require("./checkExist"));
-const sharpResize_1 = __importDefault(require("../utilities/sharpResize"));
-// resizing function
-const convertSize = (name, width, height, dstPath) => __awaiter(void 0, void 0, void 0, function* () {
-    const srcPath = path_1.default.join(__dirname, '../../assets/src/' + name + '.jpg');
-    if (yield (0, checkExist_1.default)(srcPath)) {
-        yield (0, sharpResize_1.default)(srcPath, width, height, dstPath);
-        return true;
-    }
-    else {
-        return false;
-    }
+const sharp_1 = __importDefault(require("sharp"));
+const sharpResize = (srcPath, width, height, dstPath) => __awaiter(void 0, void 0, void 0, function* () {
+    yield (0, sharp_1.default)(srcPath).resize(width, height).toFile(dstPath);
 });
-exports.default = convertSize;
+exports.default = sharpResize;

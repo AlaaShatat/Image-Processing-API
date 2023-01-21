@@ -14,6 +14,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const supertest_1 = __importDefault(require("supertest"));
 const index_1 = __importDefault(require("../index"));
+const fs_1 = require("fs");
+const path_1 = __importDefault(require("path"));
+const checkExist_1 = __importDefault(require("../helpers/checkExist"));
 const request = (0, supertest_1.default)(index_1.default);
 describe('Test endpoint Image response', () => {
     it('gets the api endpoint', () => __awaiter(void 0, void 0, void 0, function* () {
@@ -29,6 +32,14 @@ describe('Test endpoint Image response', () => {
         expect(response.status).toBe(400);
     }));
     it('gets the image endpoint and change successfully', () => __awaiter(void 0, void 0, void 0, function* () {
+        const response = yield request.get('/api/image?filename=encenadaport&height=50&width=50');
+        expect(response.status).toBe(200);
+    }));
+    it('delete the image from thumbs if exists and get the image endpoint and change successfully', () => __awaiter(void 0, void 0, void 0, function* () {
+        const dstFile = path_1.default.join(__dirname, '../../assets/src/encenadaport_50_50.jpg');
+        if (yield (0, checkExist_1.default)(dstFile)) {
+            yield fs_1.promises.unlink(dstFile);
+        }
         const response = yield request.get('/api/image?filename=encenadaport&height=50&width=50');
         expect(response.status).toBe(200);
     }));

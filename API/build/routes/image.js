@@ -12,5 +12,4 @@ imageRoute.get('/', (req, res) => {
     res.status(200).send('please add the image information');
 });
 imageRoute.get('/image', imageController_1.default);
-//module.exports = {imageRoute};
 exports.default = imageRoute;
