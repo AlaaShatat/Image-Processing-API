@@ -4,7 +4,10 @@ import Path from 'path';
 import convertSize from '../helpers/convertSize';
 import checkExist from '../helpers/checkExist';
 // exports
-const processImage = async (req: express.Request, res: express.Response) => {
+const processImage = async (
+  req: express.Request,
+  res: express.Response
+): Promise<void> => {
   const filename: string = req.query.filename
     ? req.query.filename.toString()
     : 'null';
