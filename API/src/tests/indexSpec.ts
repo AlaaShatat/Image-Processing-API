@@ -33,7 +33,7 @@ describe('Test endpoint Image response', () => {
   it('delete the image from thumbs if exists and get the image endpoint and change successfully', async (): Promise<void> => {
     const dstFile: string = path.join(
       __dirname,
-      '../../assets/src/encenadaport_50_50.jpg'
+      '../../assets/thumbs/encenadaport_50_50.jpg'
     );
     if (await checkExist(dstFile)) {
       await FS.unlink(dstFile);
