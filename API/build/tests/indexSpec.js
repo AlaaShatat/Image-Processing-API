@@ -17,6 +17,7 @@ const index_1 = __importDefault(require("../index"));
 const fs_1 = require("fs");
 const path_1 = __importDefault(require("path"));
 const checkExist_1 = __importDefault(require("../helpers/checkExist"));
+const sharpResize_1 = __importDefault(require("../utilities/sharpResize"));
 const request = (0, supertest_1.default)(index_1.default);
 describe('Test endpoint Image response', () => {
     it('gets the api endpoint', () => __awaiter(void 0, void 0, void 0, function* () {
@@ -46,5 +47,15 @@ describe('Test endpoint Image response', () => {
     it('gets the image endpoint and get from caching', () => __awaiter(void 0, void 0, void 0, function* () {
         const response = yield request.get('/api/image?filename=encenadaport&height=50&width=50');
         expect(response.status).toBe(200);
+    }));
+    // test the resizing function without API call
+    it('test the resizing function', () => __awaiter(void 0, void 0, void 0, function* () {
+        const dstFile = path_1.default.join(__dirname, '../../assets/thumbs/encenadaport_50_50.jpg');
+        const srcFile = path_1.default.join(__dirname, '../../assets/src/encenadaport.jpg');
+        if (yield (0, checkExist_1.default)(dstFile)) {
+            yield fs_1.promises.unlink(dstFile);
+        }
+        yield (0, sharpResize_1.default)(srcFile, 50, 50, dstFile);
+        expect(yield (0, checkExist_1.default)(dstFile)).toEqual(true);
     }));
 });

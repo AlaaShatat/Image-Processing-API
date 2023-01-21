@@ -3,6 +3,7 @@ import app from '../index';
 import { promises as FS } from 'fs';
 import path from 'path';
 import checkExist from '../helpers/checkExist';
+import sharpResize from '../utilities/sharpResize';
 
 const request = supertest(app);
 describe('Test endpoint Image response', () => {
@@ -50,5 +51,22 @@ describe('Test endpoint Image response', () => {
       '/api/image?filename=encenadaport&height=50&width=50'
     );
     expect(response.status).toBe(200);
+  });
+
+  // test the resizing function without API call
+  it('test the resizing function', async (): Promise<void> => {
+    const dstFile: string = path.join(
+      __dirname,
+      '../../assets/thumbs/encenadaport_50_50.jpg'
+    );
+    const srcFile: string = path.join(
+      __dirname,
+      '../../assets/src/encenadaport.jpg'
+    );
+    if (await checkExist(dstFile)) {
+      await FS.unlink(dstFile);
+    }
+    await sharpResize(srcFile, 50, 50, dstFile);
+    expect(await checkExist(dstFile)).toEqual(true);
   });
 });
