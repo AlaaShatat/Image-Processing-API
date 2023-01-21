@@ -1,6 +1,6 @@
-import sharp from 'sharp';
 import Path from 'path';
 import checkExist from './checkExist';
+import sharpResize from '../utilities/sharpResize';
 // resizing function
 const convertSize = async (
   name: string,
@@ -8,10 +8,12 @@ const convertSize = async (
   height: number,
   dstPath: string
 ): Promise<boolean> => {
-  const srcPath = Path.join(__dirname, '../../assets/src/' + name + '.jpg');
+  const srcPath: string = Path.join(
+    __dirname,
+    '../../assets/src/' + name + '.jpg'
+  );
   if (await checkExist(srcPath)) {
-    await sharp(srcPath).resize(width, height).toFile(dstPath);
-
+    await sharpResize(srcPath, width, height, dstPath);
     return true;
   } else {
     return false;

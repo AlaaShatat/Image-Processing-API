@@ -11,5 +11,4 @@ imageRoute.get('/', (req, res): void => {
 
 imageRoute.get('/image', processImage);
 
-//module.exports = {imageRoute};
 export default imageRoute;
